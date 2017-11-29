@@ -165,12 +165,6 @@ app.use(bodyParser.json());
 
 const router = express.Router(); 
 
-// The "catchall" handler: for any request that doesn't
-// match one above, send back React's index.html file.
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname+'/build/index.html'));
-});
-
 router.route('/')
 .all(function(req,res){ 
       res.json({ message : "API Serli Button" });
