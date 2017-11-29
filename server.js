@@ -6,6 +6,7 @@ const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
 const connect = require('connect'); 
 const request = require('request');
+const path = require ('path');
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, '/build')));

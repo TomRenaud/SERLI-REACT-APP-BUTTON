@@ -11,23 +11,23 @@
   "dependencies": {
     "body-parser": "^1.18.2",
     "connect": "^3.6.5",
+    "es-symbol": "1.1.2",
+    "es6-shim": "0.35.3",
     "express": "^4.16.2",
     "mongodb": "^2.2.33",
     "mongoose": "^4.13.1",
-    "request": "^2.83.0",
-    "es-symbol": "1.1.2",
-    "es6-shim": "0.35.3",
+    "path": "^0.12.7",
     "prettier": "1.7.4",
     "prop-types": "15.6.0",
     "react": "16.0.0",
     "react-dom": "16.0.0",
     "react-router": "3.0.5",
+    "request": "^2.83.0",
     "whatwg-fetch": "2.0.3"
   },
   "scripts": {
     "test": "react-scripts test --env=jsdom",
-    "start": "npm s node server.js",
-    "prestart": "npm run build",
+    "start": "npm run build && node server.js",
     "build": "react-scripts build",
     "eject": "react-scripts eject",
     "prettier": "prettier --write --single-quote --trailing-comma es5 --print-width 100 --tab-width 2 --jsx-bracket-same-line \"src/**/*.js\""
