@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import * as API from '../services/API';
 
 export class AddButtonModal extends Component {
   state = {
     display: 'none !important',
     comment: '',
+    sounds: [],
     icons: [
       {
         id: 1,
@@ -25,6 +27,9 @@ export class AddButtonModal extends Component {
   };
 
   componentDidMount() {
+    API.fetchSounds().then(sounds => {
+      this.setState({ sounds });
+    });
 
     this.soundAddButton.value = null;
 
@@ -61,7 +66,7 @@ export class AddButtonModal extends Component {
     const img_default = 'http://www.ecpnorthern.co.uk/image/cache/data/incoming/productimages/large/emergency-stop-button-key-reset-195-500x500.jpg';
     let sound = null;
 
-    if(this.soundAddButton.value === ""){
+    if(this.soundAddButton.value === "") {
       sound = "no sound";
     }else{
       sound = this.soundAddButton.options[this.soundAddButton.selectedIndex].text;
@@ -117,8 +122,8 @@ export class AddButtonModal extends Component {
           <div className="input-field col s12">
             <select ref={ref => (this.soundAddButton = ref)}>
               <option value="" disabled>Sélectionnez un son</option>
-              {this.props.sounds.map(sound => (
-                <option key={sound.hits} value={sound.sound}>{sound.sound}</option>
+              {this.state.sounds.map(sound => (
+                <option key={sound.sound} value={sound.sound}>{sound.sound}</option>
               ))}
             </select>
           </div>

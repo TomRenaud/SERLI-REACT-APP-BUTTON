@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import * as API from '../services/API';
 
 export class UpdateButtonModal extends Component {
   state = {
     comment: '',
     currentButton: null,
     currentButtonTag: null,
+    sounds: [],
     icons: [
       {
         id: 1,
@@ -26,6 +28,10 @@ export class UpdateButtonModal extends Component {
   };
 
   componentDidMount() {
+    API.fetchSounds().then(sounds => {
+      this.setState({ sounds });
+    });
+
     if (this.props.isOpen) {
       window.$(this.modalNode).openModal({
         dismissible: false,
@@ -52,18 +58,22 @@ export class UpdateButtonModal extends Component {
     }
 
     if (nextProps.button !== this.props.button && nextProps.button) {
+
       this.setState({
         currentButtonTag : nextProps.button.tag,
         currentButtonAction : nextProps.button.action,
         currentButtonIcon : nextProps.button.icon
       });
+
       window.$(this.actionUpdateButton).val(nextProps.button.action);
       window.$(this.actionUpdateButton).material_select(this._handleSelectChangeUpdateButton.bind(this));
-      if(nextProps.button.action === "Play sound"){
-          window.$(this.soundUpdateButton).material_select();
-          window.$(this.soundUpdateButton).val(nextProps.button.sound);
-          window.$(this.soundUpdateButton).material_select();
+
+      if(nextProps.button.action === "Play sound") {
+        window.$(this.soundUpdateButton).material_select();
+        window.$(this.soundUpdateButton).val(nextProps.button.sound);
+        window.$(this.soundUpdateButton).material_select();
       }
+
       this.tagButton.value = nextProps.button.tag;
       this.valueButton.value = nextProps.button.value;
       this.imgButton.value = nextProps.button.img;
@@ -97,6 +107,8 @@ export class UpdateButtonModal extends Component {
       icon: this.iconUpdateButton.options[this.iconUpdateButton.selectedIndex].text || this.state.currentButtonIcon,
       img: this.imgButton.value || img_default
     };
+
+    console.log(newButton);
 
     this.soundUpdateButton.value = null;
     this.props.onUpdateButtonSubmit(tag, indexCurrentButton, newButton);
@@ -140,8 +152,8 @@ export class UpdateButtonModal extends Component {
           <div className="input-field col s12">
             <select ref={ref => (this.soundUpdateButton = ref)}>
               <option value="" disabled>Sélectionnez un son</option>
-              {this.props.sounds.map(sound => (
-                <option key={sound.hits} value={sound.sound}>{sound.sound}</option>
+              {this.state.sounds.map(sound => (
+                <option key={sound.sound} value={sound.sound}>{sound.sound}</option>
               ))}
             </select>
           </div>
