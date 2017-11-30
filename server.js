@@ -7,6 +7,7 @@ const assert = require('assert');
 const connect = require('connect'); 
 const request = require('request');
 const path = require ('path');
+const io = require('socket.io').listen(app);
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, '/build')));
@@ -120,6 +121,22 @@ const updateButton = function(db, req, callback) {
   });  
 };
 
+// UPDATE BUTTON STATUS
+const updateButtonStatus = function(db, req, callback) {
+  
+  const collection = db.collection('buttons');
+  
+  collection.updateOne({ tag : req.params.buttonTagId }
+    , { $set: {
+          status: req.body.status 
+        } 
+      }, function(err, result) {
+    assert.equal(err, null);
+    assert.equal(1, result.result.n);
+    callback(result);
+  });  
+};
+
 // DELETE BUTTON
 const removeButton = function(db, req, callback) {
   
@@ -174,6 +191,18 @@ router.route('/api/sounds')
 .get(function(req,res){
   soundBoxList(function(result) {
     res.send(result);
+  });
+})
+
+router.route('/api/status/:buttonTagId')
+.put(function(req,res){ 
+  MongoClient.connect(url, function(err, db) {
+    assert.equal(null, err);
+    // UPDATE BUTTON BY TAG
+    updateButtonStatus(db, req, function(result) {
+      res.json(result);
+      db.close();
+    });
   });
 })
   
