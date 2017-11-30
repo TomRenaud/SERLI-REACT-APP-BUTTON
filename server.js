@@ -7,7 +7,6 @@ const assert = require('assert');
 const connect = require('connect'); 
 const request = require('request');
 const path = require ('path');
-const io = require('socket.io').listen(app);
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, '/build')));
