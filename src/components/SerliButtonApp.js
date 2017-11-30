@@ -10,8 +10,7 @@ export class SerliButtonApp extends Component {
     selectedRegion: null,
     wines: [],
     selectedWine: null,
-    buttons: [],
-    sounds: []
+    buttons: []
   };
 
   componentDidMount() {
@@ -21,10 +20,6 @@ export class SerliButtonApp extends Component {
           buttons,
           selectedButton: buttons[0]
         });
-    });
-
-    API.fetchSounds().then(sounds => {
-      this.setState({ sounds });
     });
   };
 
@@ -128,14 +123,12 @@ export class SerliButtonApp extends Component {
           />
 
           <AddButtonModal
-            sounds={this.state.sounds}
             onAddButton={this.onAddButton}
             isOpen={this.state.commentModalOpen}
             closeCommentModal={this.closeCommentModal}
           />
 
           <UpdateButtonModal
-            sounds={this.state.sounds}
             buttons={this.state.buttons}
             button={this.state.selectedButton}
             onUpdateButtonSubmit={this.onUpdateButtonSubmit}
