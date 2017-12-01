@@ -127,7 +127,7 @@ const updateButtonStatus = function(db, req, callback) {
   
   collection.updateOne({ tag : req.params.buttonTagId }
     , { $set: {
-          status: req.body.status 
+          status: req.params.buttonStatus 
         } 
       }, function(err, result) {
     assert.equal(err, null);
@@ -193,8 +193,8 @@ router.route('/api/sounds')
   });
 })
 
-router.route('/api/status/:buttonTagId')
-.put(function(req,res){ 
+router.route('/api/status/:buttonTagId/:buttonStatus')
+.get(function(req,res){ 
   MongoClient.connect(url, function(err, db) {
     assert.equal(null, err);
     // UPDATE BUTTON BY TAG
